@@ -61,7 +61,7 @@ const styles = {
   thumbnailContainerStyle: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 10,
+    marginLeft: 1,
     marginRight: 10
   }
 }
