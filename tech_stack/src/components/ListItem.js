@@ -46,13 +46,17 @@ class ListItem extends Component {
 
 const styles = {
   titleStyle: {
-    fontSize: 18,
-    paddingLeft: 10
+    fontSize: 20,
+    paddingLeft: 10,
+    fontWeight: '600'
   },
   descriptionStyle: {
     flex: 1,
-    paddingLeft: 2,
-    paddingRight: 2
+    lineHeight: 22,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15
   }
 }
 
