@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text } from 'react-native'
 import firebase from 'firebase'
-import { Button, Card, CardSection, TextField } from './common'
+import { Button, Card, CardSection, TextField, Spinner } from './common'
 
 class LoginForm extends Component {
   constructor(props) {
@@ -9,39 +9,67 @@ class LoginForm extends Component {
     this.state = {
       email: '',
       password: '',
-      error: ''
+      error: '',
+      loading: false
     }
   }
 
   onButtonPress = (event) => {
+    console.log('onButtonPress')
     const { email, password } = this.state
-    this.setState({ ...this.state, error: '' })
+    this.setState({ ...this.state, error: '', loading: true })
     firebase.auth().signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        this.onLoginSuccess()
+      })
       .catch((err1) => {
-        console.log('err1', err1)
         if (err1.code === 'auth/user-not-found') {
           firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((result) => {
+              this.onLoginSuccess()
+            })
             .catch((err2) => {
-              console.log('err2', err2)
-              if (err2.code === 'auth/weak-password') {
-                this.setState({ ...this.state,
-                  error: `Password: ${err2.message}`})
-              }
-              else {
-                this.setState({ ...this.state,
-                  error: `Authentication failed: ${err2.message}`})
-              }
+              this.onLoginFailure(err2)
             })
         }
         else {
-          this.setState({ ...this.state,
-            error: `Authentication failed: ${err1.message}`})
+          this.onLoginFailure(err1)
         }
       })
-      .then((result) => {
-        console.log('result', result)
-        //this.setState({ ...this.state, error: '' })
-      })
+  }
+
+  onLoginSuccess = () => {
+    console.log('onLoginSuccess')
+    this.setState({
+      ...this.state,
+      loading: false,
+      email: '',
+      password: '',
+      error: ''
+    })
+  }
+
+  onLoginFailure = (err) => {
+    console.log('err', err)
+    if (err.code === 'auth/weak-password') {
+      this.setState({ ...this.state, loading: false,
+        error: `Password: ${err.message}`})
+    }
+    else {
+      this.setState({ ...this.state, loading: false,
+        error: `Authentication failed: ${err.message}`})
+    }
+  }
+
+  renderButton() {
+    if (this.state.loading) {
+      return <Spinner spinnerSize='small'/>
+    }
+    return (
+      <Button onPress={ this.onButtonPress }>
+        Log In
+      </Button>
+    )
   }
 
   render() {
@@ -58,9 +86,7 @@ class LoginForm extends Component {
             value={ this.state.password }/>
         </CardSection>
         <CardSection>
-          <Button onPress={ this.onButtonPress }>
-            Log In
-          </Button>
+          { this.renderButton() }
         </CardSection>
         <Text style={ styles.errorTextStyle }>
           { this.state.error }
