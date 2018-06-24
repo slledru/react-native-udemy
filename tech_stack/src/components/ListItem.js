@@ -1,17 +1,33 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Text, TouchableWithoutFeedback, View } from 'react-native'
+import {
+  Text, TouchableWithoutFeedback,
+  View, LayoutAnimation
+} from 'react-native'
 import { CardSection } from './common'
 import * as actions from '../actions'
 
 class ListItem extends Component {
-  renderDetail(data) {
+  componentWillUpdate() {
+    LayoutAnimation.spring()
+  }
 
+  renderDetail() {
+    const { data, expanded } = this.props
+    if (expanded) {
+      return (
+        <CardSection>
+          <Text style={ styles.descriptionStyle }>
+            { data.description }
+          </Text>
+        </CardSection>
+      )
+    }
+    return null
   }
 
   render() {
-    console.log(this.props)
     const { titleStyle } = styles
     const { id, title } = this.props.data
     return (
@@ -21,6 +37,7 @@ class ListItem extends Component {
           <CardSection>
             <Text style={ titleStyle }>{ title }</Text>
           </CardSection>
+          { this.renderDetail() }
         </View>
       </TouchableWithoutFeedback>
     )
@@ -31,15 +48,21 @@ const styles = {
   titleStyle: {
     fontSize: 18,
     paddingLeft: 10
+  },
+  descriptionStyle: {
+    flex: 1,
+    paddingLeft: 2,
+    paddingRight: 2
   }
 }
 
-const mapStateToProps = (state) => {
-  return { selectedLibraryId: state.selectedLibraryId }
+const mapStateToProps = (state, ownProps) => {
+  const expanded = state.selectedLibraryId === ownProps.data.id
+  return { expanded }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ ...actions }, dispatch)
 }
 
-export default connect(null, mapDispatchToProps)(ListItem)
+export default connect(mapStateToProps, mapDispatchToProps)(ListItem)
