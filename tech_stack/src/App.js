@@ -1,16 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+
+import rootReducers from './reducers'
 import { Header } from './components/common'
 
-class App extends Component {
-  render() {
-    return (
+const App = () => {
+  return (
+    <Provider store={ createStore(rootReducers) }>
       <View style={styles.container}>
         <Header headerText={'Technology Stack'}/>
         <Text>Test</Text>
       </View>
-    );
-  }
+    </Provider>
+  );
 }
 
 const styles = {
