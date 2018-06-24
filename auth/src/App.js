@@ -6,8 +6,9 @@ import { FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN,
   FIREBASE_DB_URL, FIREBASE_PROJECT_ID,
   FIREBASE_STORAGE_BUCKET, FIREBASE_MSG_SENDER_ID
 } from 'react-native-dotenv'
-import { Header, Button, Spinner } from './components/common'
+import { Header, Button, Spinner, Card, CardSection } from './components/common'
 import LoginForm from './components/LoginForm'
+import Logout from './components/Logout'
 
 class App extends Component {
   constructor(props) {
@@ -34,10 +35,14 @@ class App extends Component {
     })
   }
 
+  logoutUser = () => {
+    firebase.auth().signOut()
+  }
+
   renderContent() {
     switch (this.state.loggedIn) {
       case true:
-        return <Button>Log Out</Button>
+        return <Logout onPress={ this.logoutUser } />
       case false:
         return  <LoginForm />
       default:
