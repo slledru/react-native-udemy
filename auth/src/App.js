@@ -37,7 +37,7 @@ class App extends Component {
   renderContent() {
     switch (this.state.loggedIn) {
       case true:
-        return <Button style={ styles.buttonStyle }>Log Out</Button>
+        return <Button>Log Out</Button>
       case false:
         return  <LoginForm />
       default:
@@ -57,11 +57,7 @@ class App extends Component {
 
 const styles = {
   containerStyle: {
-    flex: 1,
-    justifyContent: 'center'
-  },
-  buttonStyle: {
-    alignSelf: 'flex-start'
+    flex: 1
   }
 }
 
