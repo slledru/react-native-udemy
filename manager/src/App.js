@@ -6,16 +6,14 @@ import { FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN,
   FIREBASE_DB_URL, FIREBASE_PROJECT_ID,
   FIREBASE_STORAGE_BUCKET, FIREBASE_MSG_SENDER_ID
 } from 'react-native-dotenv'
-import { Provider } from 'react-redux'
+import { Provider, connect } from 'react-redux'
 import { createStore } from 'redux'
 
 import rootReducers from './reducers'
 import { Header } from './components/common'
+import LoginForm from './components/LoginForm'
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-  }
   componentWillMount() {
     firebase.initializeApp({
       apiKey: FIREBASE_API_KEY,
@@ -35,6 +33,7 @@ class App extends Component {
       <Provider store={ createStore(rootReducers) }>
         <View style={ styles.container }>
           <Header headerText={ 'Manager' }/>
+          <LoginForm />
         </View>
       </Provider>
     )
