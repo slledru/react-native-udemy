@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import firebase from 'firebase'
+import ReduxThunk from 'redux-thunk'
 
 import { FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN,
   FIREBASE_DB_URL, FIREBASE_PROJECT_ID,
   FIREBASE_STORAGE_BUCKET, FIREBASE_MSG_SENDER_ID
 } from 'react-native-dotenv'
 import { Provider, connect } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 
 import rootReducers from './reducers'
 import { Header } from './components/common'
@@ -29,8 +30,9 @@ class App extends Component {
   }
 
   render() {
+    const store = createStore(rootReducers, {}, applyMiddleware(ReduxThunk))
     return (
-      <Provider store={ createStore(rootReducers) }>
+      <Provider store={ store }>
         <View style={ styles.container }>
           <Header headerText={ 'Manager' }/>
           <LoginForm />
