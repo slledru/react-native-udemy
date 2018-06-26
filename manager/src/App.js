@@ -34,7 +34,7 @@ class App extends Component {
     return (
       <Provider store={ store }>
         <View style={ styles.container }>
-          {/* <Header headerText={ 'Manager' }/> */}
+          <Header headerText={ 'Manager' }/>
           <Router />
         </View>
       </Provider>
