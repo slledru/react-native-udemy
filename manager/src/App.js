@@ -12,7 +12,6 @@ import { createStore, applyMiddleware } from 'redux'
 
 import rootReducers from './reducers'
 import { Header } from './components/common'
-import LoginForm from './components/LoginForm'
 import Router from './router'
 
 class App extends Component {
@@ -35,6 +34,7 @@ class App extends Component {
     return (
       <Provider store={ store }>
         <View style={ styles.container }>
+          {/* <Header headerText={ 'Manager' }/> */}
           <Router />
         </View>
       </Provider>
