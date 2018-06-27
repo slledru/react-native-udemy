@@ -6,7 +6,8 @@ class EmployeeCreate extends Component {
     return (
       <Card>
         <CardSection>
-          <TextField label="Name" placeholder="Jane Doe" />
+          <TextField 
+            label="Name" placeholder="Jane Doe" />
         </CardSection>
         <CardSection>
           <TextField label="Phone" placeholder="555-555-5555" />
